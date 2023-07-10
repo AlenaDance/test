@@ -16,8 +16,9 @@
   }
   .search{
     width: 145px;
-    left: 20px;
+    left: 0px;
     border-radius: 10px;
+    transform: translateX(0);
   }
   .weather{
     display: block;
