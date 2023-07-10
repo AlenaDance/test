@@ -34,7 +34,7 @@
     font-size: 26px;
   }
   .current-weather-card{
-  width: 100%;
+  width: auto;
 }
 .wrapper{
     display: block;
