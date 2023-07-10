@@ -1,0 +1,65 @@
+.logo img {
+    height: 40px;
+    width: 40px;
+    flex: 0 0 auto;
+  }
+  
+  .site-name h1 {
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 25px;
+  }
+  header{
+    width: 100%;
+    min-height: 60px;
+  }
+  .search{
+    width: 250px;
+    left: 20%;
+    border-radius: 10px;
+  }
+  .weather{
+    display: block;
+  }
+  .search input[type="search"] {
+    width: 160px;
+  }
+  .card-title{
+    font-size: 22px;
+  }
+  p{
+    font-size: 26px;
+  }
+  .current-weather-card{
+  width: 100%;
+  margin: 1px;
+}
+.wrapper{
+    display: block;
+}
+.temperature{
+    font-size: 48px;
+}
+.weather-icon{
+    width: 80px;
+    height: 80px;
+}
+.days-weather,.hours-weather{
+    overflow: scroll;
+}
+.right-current-weather{
+    margin-top:5px;
+}
+.temperature2{
+    font-size: 40px;
+}
+.cards, .day-card{
+    min-width:180px;
+}
+.weather-icon2{
+    width:80px;
+    height: 80px;
+}
+
+
+
