@@ -7,13 +7,13 @@ const fetchData = function(URL, callback){
 }
  const url = {
   currentWeather(lat, lon){
-    return 'http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+lon+'&lang=ru&units=metric'
+    return 'https://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+lon+'&lang=ru&units=metric'
   },
   forecastWeather(lat,lon){
-    return 'http://api.openweathermap.org/data/2.5/forecast?lat='+lat+'&lon='+lon+'&lang=ru&units=metric'
+    return 'https://api.openweathermap.org/data/2.5/forecast?lat='+lat+'&lon='+lon+'&lang=ru&units=metric'
   },
   geo(query){
-    return 'http://api.openweathermap.org/geo/1.0/direct?q='+ query +'&limit=5'
+    return 'https://api.openweathermap.org/geo/1.0/direct?q='+ query +'&limit=5'
   }
 }
 
