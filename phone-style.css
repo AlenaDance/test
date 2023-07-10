@@ -23,6 +23,7 @@
   }
   .search input[type="search"] {
     width: 132px;
+    height: 29px;
   }
   .card-title{
     font-size: 22px;
