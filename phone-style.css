@@ -16,7 +16,7 @@
   }
   .search{
     width: 145px;
-    left: 0;
+    left: 12px;
     border-radius: 10px;
     transform: translateX(0);
   }
