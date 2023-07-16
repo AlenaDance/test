@@ -1,19 +1,19 @@
 const key = '765b31cce89d72eb5dbb8e153d6fd3d8';
 
 const fetchData = function(URL, callback){
-  fetch(URL +'&appid=' + key)
+  fetch(`${URL}&appid=${key}`,{timeout:10000})
   .then(res => res.json())
   .then(data => callback(data));
 }
  const url = {
   currentWeather(lat, lon){
-    return 'https://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+lon+'&lang=ru&units=metric'
+    return `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&lang=ru&units=metric`
   },
   forecastWeather(lat,lon){
-    return 'https://api.openweathermap.org/data/2.5/forecast?lat='+lat+'&lon='+lon+'&lang=ru&units=metric'
+    return `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&lang=ru&units=metric`
   },
   geo(query){
-    return 'https://api.openweathermap.org/geo/1.0/direct?q='+ query +'&limit=5'
+    return `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5`
   }
 }
 
@@ -32,7 +32,10 @@ searchField.addEventListener("input", function() {
           for( const{name, local_names, country, state, lat, lon} of locations){
             const searchItem = document.createElement("li");
             searchItem.classList.add("view-item");
-            searchItem.innerHTML='<div class="cities" onclick ="weather('+lat+', '+lon+');"><p class ="item-title">'+(local_names["ru"] || name) +'</p><p class = "item-subtitle">'+ (state || country) +'</p></div>';
+            searchItem.innerHTML=`<div class="cities" onclick ="weather(${lat}, ${lon});">
+                                    <p class ="item-title">${(local_names["ru"] || name)}</p>
+                                    <p class = "item-subtitle">${state}, ${country}</p>
+                                  </div>`;
             list.append(searchItem);
           }
         });     
@@ -65,22 +68,22 @@ function weather(lat, lon){
   searchDisable();
   fetchData(url.currentWeather(lat, lon),function(data){
     weapper.innerHTML = "";
-    weapper.innerHTML += '<p class = "temperature" id="temp">'+Math.round(data.main.temp)+'&deg;<sup>c</sup></p>';
-    descr.innerHTML = '<i class="fa-solid fa-envelope"></i> '+data.weather[0]['description'];
-    weapper.innerHTML += '<img src = "https://openweathermap.org/img/wn/'+data.weather[0]['icon'].substring(0,2)+'d.png" alt = "" class = "weather-icon">';
-    place.innerHTML = '<i class="fa-solid fa-location-dot"></i> '+ data.name;
-    seems.innerHTML = '<i class="fa-solid fa-temperature-half"></i> Ощущается как '+ Math.round(data.main.feels_like)+'&deg;<sup>c</sup>';
-    wind.innerHTML = '<i class="fa-solid fa-wind"></i> Скорость ветра '+ data.wind.speed +' м/c';
-    date.innerHTML = '<i class="fa-solid fa-calendar-days"></i> '+ getDate(data.dt, data.timezone);
-    humidity.innerHTML ='<i class="fa-solid fa-droplet"></i> влажность воздуха ' + data.main.humidity + '%';
-    pressure.innerHTML = '<i class="fa-sharp fa-solid fa-gem"></i> давление ' + Math.round(data.main.pressure*0.750063755419211)+' мм.рт.ст';
+    weapper.innerHTML += `<p class = "temperature" id="temp">${Math.round(data.main.temp)}&deg;<sup>c</sup></p>`;
+    descr.innerHTML = `<i class="fa-solid fa-envelope"></i> ${data.weather[0]['description']}`;
+    weapper.innerHTML += `<img src = "https://openweathermap.org/img/wn/${data.weather[0]['icon'].substring(0,2)}d.png" alt = "" class = "weather-icon">`;
+    place.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${data.name}`;
+    seems.innerHTML = `<i class="fa-solid fa-temperature-half"></i> Ощущается как ${Math.round(data.main.feels_like)}&deg;<sup>c</sup>`;
+    wind.innerHTML = `<i class="fa-solid fa-wind"></i> Скорость ветра ${data.wind.speed} м/c`;
+    date.innerHTML = `<i class="fa-solid fa-calendar-days"></i> ${getDate(data.dt, data.timezone)}`;
+    humidity.innerHTML =`<i class="fa-solid fa-droplet"></i> влажность воздуха ${data.main.humidity}%`;
+    pressure.innerHTML = `<i class="fa-sharp fa-solid fa-gem"></i> давление ${Math.round(data.main.pressure*0.750063755419211)} мм.рт.ст`;
   });
   fetchData(url.forecastWeather(lat, lon),function(data2){
     for(let i=0; i<8;i++){
       var date24 = data2.list[i].dt_txt;
       cards[i].innerHTML = date24.substring(8,10) + '.' + date24.substring(5,7) + ' '+date24.slice(-8);
       temp2[i].innerHTML = Math.round(data2.list[i].main.temp) + '&deg;<sup>c</sup>';
-      icon2[i].innerHTML = '<img src = "https://openweathermap.org/img/wn/'+data2.list[i].weather[0]['icon'].substring(0,2)+'d.png" alt = "" class = "weather-icon2">';
+      icon2[i].innerHTML = `<img src = "https://openweathermap.org/img/wn/${data2.list[i].weather[0]['icon'].substring(0,2)}d.png" alt = "" class = "weather-icon2">`;
       descr2[i].innerHTML = data2.list[i].weather[0]['description'];
     }
     var count = 0;
@@ -88,7 +91,7 @@ function weather(lat, lon){
       if((data2.list[i].dt_txt).slice(-8) == "15:00:00"){
       dayTitle[count].innerHTML = (getDate(data2.list[i].dt, data2.city.timezone)).substring(6);
       dayTemp[count].innerHTML = Math.round(data2.list[i].main.temp) + '&deg;<sup>c</sup>';
-      dayIcon[count].innerHTML = '<img src = "https://openweathermap.org/img/wn/'+data2.list[i].weather[0]['icon'].substring(0,2)+'d.png" alt = "" class = "weather-icon2">';
+      dayIcon[count].innerHTML = `<img src = "https://openweathermap.org/img/wn/${data2.list[i].weather[0]['icon'].substring(0,2)}d.png" alt = "" class = "weather-icon2">`;
       dayDescription[count].innerHTML = data2.list[i].weather[0]['description'];
       count++;
       }
@@ -113,4 +116,3 @@ function searchDisable(){
   searchField.value = "";
   searchResult.innerHTML = "";
 }
-
