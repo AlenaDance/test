@@ -129,3 +129,22 @@ const searchDisable = function(){
   searchField.value = "";
   searchResult.innerHTML = "";
 }
+
+
+const egg = document.querySelector('.eggwrap');
+const img1 = egg.querySelector('.zont');
+const logo = document.querySelector('.logo');
+const stakan = document.querySelector('.logo2');
+const simka = document.querySelector('.simka');
+document.addEventListener('click', function(event) {
+  if (egg.contains(event.target) && event.target != img1 && event.target != stakan) {
+    egg.classList.remove('active');
+    simka.classList.remove('active');
+  }
+  if(logo.contains(event.target)){
+    egg.classList.add('active');
+  }
+  if(stakan.contains(event.target)){
+    simka.classList.toggle('active');
+  }
+});
