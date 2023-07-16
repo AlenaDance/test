@@ -1,6 +1,6 @@
 .logo img {
-    height: 40px;
-    width: 40px;
+    height: 50px;
+    width: 50px;
     flex: 0 0 auto;
   }
   
@@ -12,23 +12,22 @@
   }
   header{
     min-height: 60px;
+	overflow:hidden;
   }
   .search{
-    width: 157px;
-    left: 0px;
+    width: 145px;
+    left: 0;
     border-radius: 10px;
     transform: translateX(0);
-    margin-left:15px;
   }
   .weather{
     display: block;
   }
   .search input[type="search"] {
-    width: 120px;
-    height: 29px;
+    width: 110px;
   }
   .card-title{
-    font-size: 22px;
+    font-size: 30px;
   }
   p{
     font-size: 26px;
@@ -40,11 +39,11 @@
     display: block;
 }
 .temperature{
-    font-size: 48px;
+    font-size: 58px;
 }
 .weather-icon{
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
 }
 .days-weather,.hours-weather{
     overflow: scroll;
