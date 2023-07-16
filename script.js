@@ -17,6 +17,19 @@ const fetchData = function(URL, callback){
   }
 }
 
+window.addEventListener('load', function() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(successCallback, weather(55.7522, 37.6156));
+  } 
+});
+
+function successCallback(position) {
+  const latitude = position.coords.latitude;
+  const longitude = position.coords.longitude;
+  weather(latitude, longitude);
+}
+
+
 const searchField = document.getElementById('d');
 const searchResult = document.getElementById('data-search-result');
 const arrow = document.getElementById('arrow');
@@ -64,7 +77,7 @@ const dayTemp = document.getElementsByClassName('temperature-day');
 const dayIcon = document.getElementsByClassName('weapper-day');
 const dayDescription = document.getElementsByClassName('weather-description-day');
 
-function weather(lat, lon){
+const weather = function(lat, lon){
   searchDisable();
   fetchData(url.currentWeather(lat, lon),function(data){
     weapper.innerHTML = "";
@@ -100,7 +113,7 @@ function weather(lat, lon){
 }
 
 
-function getDate(dateUnix, timezone){
+const getDate = function(dateUnix, timezone){
   const weekDayNames = ["воскресенье","понедельник","вторник","среда","четверг","пятница","суббота"];
   const monthNames = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
   const date = new Date((dateUnix+timezone)*1000);
@@ -109,7 +122,7 @@ function getDate(dateUnix, timezone){
   return date.getUTCHours() +':'+ ('0'+date.getUTCMinutes()).slice(-2)+ ', '+ date.getUTCDate() + ' ' + monthName + ', ' + weekDayName;
 }
 
-function searchDisable(){
+const searchDisable = function(){
   searchResult.classList.remove("active");
   arrow.classList.remove('active');
   glass.classList.add('active');
