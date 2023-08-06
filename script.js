@@ -19,7 +19,7 @@ const fetchData = function(URL, callback){
 
 window.addEventListener('load', function() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(successCallback, weather(55.7522, 37.6156));
+    navigator.geolocation.getCurrentPosition(successCallback, weather(56.8667, 37.35));
   } 
 });
 
