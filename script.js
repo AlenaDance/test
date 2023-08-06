@@ -85,8 +85,8 @@ const weather = function(lat, lon){
     descr.innerHTML = `<i class="fa-solid fa-envelope"></i> ${data.weather[0]['description']}`;
     weapper.innerHTML += `<img src = "https://openweathermap.org/img/wn/${data.weather[0]['icon'].substring(0,2)}d.png" alt = "" class = "weather-icon">`;
     place.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${data.name}`;
-    seems.innerHTML = `<i class="fa-solid fa-temperature-half"></i> Ощущается как ${Math.round(data.main.feels_like)}&deg;<sup>c</sup>`;
-    wind.innerHTML = `<i class="fa-solid fa-wind"></i> Скорость ветра ${data.wind.speed} м/c`;
+    seems.innerHTML = `<i class="fa-solid fa-temperature-half"></i> ощущается как ${Math.round(data.main.feels_like)}&deg;<sup>c</sup>`;
+    wind.innerHTML = `<i class="fa-solid fa-wind"></i> скорость ветра ${data.wind.speed} м/c`;
     date.innerHTML = `<i class="fa-solid fa-calendar-days"></i> ${getDate(data.dt, data.timezone)}`;
     humidity.innerHTML =`<i class="fa-solid fa-droplet"></i> влажность воздуха ${data.main.humidity}%`;
     pressure.innerHTML = `<i class="fa-sharp fa-solid fa-gem"></i> давление ${Math.round(data.main.pressure*0.750063755419211)} мм.рт.ст`;
