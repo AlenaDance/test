@@ -199,6 +199,7 @@ p{
 .hours-weather, .days-weather{
   display: flex;
   justify-content: space-between;
+  overflow: auto;
 }
 .weather-icon2{
   width: 60px;
