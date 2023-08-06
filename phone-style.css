@@ -51,9 +51,6 @@
 .temperature2{
     font-size: 40px;
 }
-.cards, .day-card{
-    min-width:180px;
-}
 .weather-icon2{
     width:80px;
     height: 80px;
