@@ -23,7 +23,7 @@ window.addEventListener('load', function() {
   } 
 });
 
-function successCallback(position) {
+const successCallback = function (position) {
   const latitude = position.coords.latitude;
   const longitude = position.coords.longitude;
   weather(latitude, longitude);
@@ -34,6 +34,7 @@ const searchField = document.getElementById('d');
 const searchResult = document.getElementById('data-search-result');
 const arrow = document.getElementById('arrow');
 const glass = document.getElementById('glass');
+
 searchField.addEventListener("input", function() {
   if(searchField.value){
         arrow.classList.add('active');
@@ -77,41 +78,52 @@ const dayTemp = document.getElementsByClassName('temperature-day');
 const dayIcon = document.getElementsByClassName('weapper-day');
 const dayDescription = document.getElementsByClassName('weather-description-day');
 
-const weather = function(lat, lon){
-  searchDisable();
-  fetchData(url.currentWeather(lat, lon),function(data){
-    weapper.innerHTML = "";
-    weapper.innerHTML += `<p class = "temperature" id="temp">${Math.round(data.main.temp)}&deg;<sup>c</sup></p>`;
-    descr.innerHTML = `<i class="fa-solid fa-envelope"></i> ${data.weather[0]['description']}`;
-    weapper.innerHTML += `<img src = "https://openweathermap.org/img/wn/${data.weather[0]['icon'].substring(0,2)}d.png" alt = "" class = "weather-icon">`;
-    place.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${data.name}`;
-    seems.innerHTML = `<i class="fa-solid fa-temperature-half"></i> ощущается как ${Math.round(data.main.feels_like)}&deg;<sup>c</sup>`;
-    wind.innerHTML = `<i class="fa-solid fa-wind"></i> скорость ветра ${data.wind.speed} м/c`;
-    date.innerHTML = `<i class="fa-solid fa-calendar-days"></i> ${getDate(data.dt, data.timezone)}`;
-    humidity.innerHTML =`<i class="fa-solid fa-droplet"></i> влажность воздуха ${data.main.humidity}%`;
-    pressure.innerHTML = `<i class="fa-sharp fa-solid fa-gem"></i> давление ${Math.round(data.main.pressure*0.750063755419211)} мм.рт.ст`;
-  });
-  fetchData(url.forecastWeather(lat, lon),function(data2){
-    for(let i=0; i<8;i++){
-      var date24 = data2.list[i].dt_txt;
-      cards[i].innerHTML = date24.substring(8,10) + '.' + date24.substring(5,7) + ' '+date24.slice(-8);
-      temp2[i].innerHTML = Math.round(data2.list[i].main.temp) + '&deg;<sup>c</sup>';
-      icon2[i].innerHTML = `<img src = "https://openweathermap.org/img/wn/${data2.list[i].weather[0]['icon'].substring(0,2)}d.png" alt = "" class = "weather-icon2">`;
-      descr2[i].innerHTML = data2.list[i].weather[0]['description'];
-    }
-    var count = 0;
-    for(let i = 8; i<40; i++){
-      if((data2.list[i].dt_txt).slice(-8) == "15:00:00"){
-      dayTitle[count].innerHTML = (getDate(data2.list[i].dt, data2.city.timezone)).substring(6);
-      dayTemp[count].innerHTML = Math.round(data2.list[i].main.temp) + '&deg;<sup>c</sup>';
-      dayIcon[count].innerHTML = `<img src = "https://openweathermap.org/img/wn/${data2.list[i].weather[0]['icon'].substring(0,2)}d.png" alt = "" class = "weather-icon2">`;
-      dayDescription[count].innerHTML = data2.list[i].weather[0]['description'];
-      count++;
-      }
-    }
-  });
-}
+const displayCurrentWeather = (currentWeatherData) => {
+  weapper.innerHTML = "";
+  weapper.innerHTML += `<p class="temperature" id="temp">${Math.round(currentWeatherData.main.temp)}&deg;<sup>c</sup></p>`;
+  descr.innerHTML = `<i class="fa-solid fa-envelope"></i> ${currentWeatherData.weather[0]['description']}`;
+  weapper.innerHTML += `<img src="https://openweathermap.org/img/wn/${currentWeatherData.weather[0]['icon'].substring(0,2)}d.png" alt="" class="weather-icon">`;
+  place.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${currentWeatherData.name}`;
+  seems.innerHTML = `<i class="fa-solid fa-temperature-half"></i> Ощущается как ${Math.round(currentWeatherData.main.feels_like)}&deg;<sup>c</sup>`;
+  wind.innerHTML = `<i class="fa-solid fa-wind"></i> Скорость ветра ${currentWeatherData.wind.speed} м/c`;
+  date.innerHTML = `<i class="fa-solid fa-calendar-days"></i> ${getDate(currentWeatherData.dt, currentWeatherData.timezone)}`;
+  humidity.innerHTML = `<i class="fa-solid fa-droplet"></i> влажность воздуха ${currentWeatherData.main.humidity}%`;
+  pressure.innerHTML = `<i class="fa-sharp fa-solid fa-gem"></i> давление ${Math.round(currentWeatherData.main.pressure*0.750063755419211)} мм.рт.ст`;
+};
 
+const displayHourlyForecast = function(forecastWeatherData){
+  for (let i = 0; i < 8; i++) {
+      const date24 = forecastWeatherData.list[i].dt_txt;
+      cards[i].innerHTML = date24.substring(8, 10) + '.' + date24.substring(5, 7) + ' ' + date24.slice(-8);
+      temp2[i].innerHTML = Math.round(forecastWeatherData.list[i].main.temp) + '&deg;<sup>c</sup>';
+      icon2[i].innerHTML = `<img src="https://openweathermap.org/img/wn/${forecastWeatherData.list[i].weather[0]['icon'].substring(0,2)}d.png" alt="" class="weather-icon2">`;
+      descr2[i].innerHTML = forecastWeatherData.list[i].weather[0]['description'];
+  }
+};
+
+const displayDailyForecast = function(forecastWeatherData){
+  let count = 0;
+  for (let i = 8; i < 40; i++) {
+      if ((forecastWeatherData.list[i].dt_txt).slice(-8) == "15:00:00") {
+          dayTitle[count].innerHTML = (getDate(forecastWeatherData.list[i].dt, forecastWeatherData.city.timezone)).substring(6);
+          dayTemp[count].innerHTML = Math.round(forecastWeatherData.list[i].main.temp) + '&deg;<sup>c</sup>';
+          dayIcon[count].innerHTML = `<img src="https://openweathermap.org/img/wn/${forecastWeatherData.list[i].weather[0]['icon'].substring(0,2)}d.png" alt="" class="weather-icon2">`;
+          dayDescription[count].innerHTML = forecastWeatherData.list[i].weather[0]['description'];
+          count++;
+      }
+  }
+};
+
+const weather = function(lat, lon) {
+  searchDisable();
+  fetchData(url.currentWeather(lat, lon), function(currentWeatherData) {
+      displayCurrentWeather(currentWeatherData);
+  });
+  fetchData(url.forecastWeather(lat, lon), function(forecastWeatherData) {
+      displayHourlyForecast(forecastWeatherData);
+      displayDailyForecast(forecastWeatherData);
+  });
+};
 
 const getDate = function(dateUnix, timezone){
   const weekDayNames = ["воскресенье","понедельник","вторник","среда","четверг","пятница","суббота"];
@@ -129,6 +141,7 @@ const searchDisable = function(){
   searchField.value = "";
   searchResult.innerHTML = "";
 }
+
 
 
 const egg = document.querySelector('.eggwrap');
